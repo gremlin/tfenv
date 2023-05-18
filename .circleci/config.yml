@@ -1,0 +1,17 @@
+version: 2.1
+orbs:
+  docker: circleci/docker@2.2.0
+workflows:
+  build-and-publish-docker-image:
+    jobs:
+      - docker/publish:
+          context: docker-hub-login
+          image: $CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME
+          docker-username: CONTEXT_GREMLIN_DOCKER_USERNAME
+          docker-password: CONTEXT_GREMLIN_DOCKER_PASSWORD
+          tag: $CIRCLE_TAG,$CIRCLE_SHA1
+          filters:
+            tags:
+              only: /^v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/
+            branches:
+              ignore: /.*/

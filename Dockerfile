@@ -4,6 +4,8 @@ FROM "docker.io/bash:${BASH_VERSION}"
 # Runtime dependencies
 RUN apk add --no-cache --purge \
     curl \
+    git \
+    openssh \
     ;
 
 ARG TFENV_VERSION=3.0.0
